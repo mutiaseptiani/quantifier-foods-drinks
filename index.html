@@ -1,1 +1,1382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif - Quantifiers of Food and Drink | Kelas 5 Kurikulum Merdeka</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Comic+Neue:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+        
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            margin-bottom: 20px;
+        }
+        
+        /* Login */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input, .form-group select {
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.2);
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(102,126,234,0.5);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            box-shadow: 0 8px 20px rgba(72,187,120,0.4);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* Student info bar */
+        .student-bar {
+            background: rgba(255,255,255,0.95);
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+        }
+        
+        .student-bar .name {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .score-display {
+            background: linear-gradient(135deg, #f6e05e, #ecc94b);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #744210;
+        }
+        
+        /* Navigation menu */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .menu-item {
+            background: linear-gradient(145deg, #f7fafc, #edf2f7);
+            border: 2px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(102,126,234,0.2);
+        }
+        
+        .menu-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .menu-item h3 {
+            font-size: 1.1rem;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+        
+        .menu-item p {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        /* Learning content */
+        .section-title {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .content-box {
+            background: #f7fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .content-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .content-box p, .content-box li {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .content-box ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        
+        .example-card:hover {
+            border-color: #667eea;
+            transform: scale(1.03);
+        }
+        
+        .example-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+        
+        .example-card .en {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+        
+        .example-card .id {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .table-quant {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .table-quant th, .table-quant td {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        
+        .table-quant th {
+            background: #667eea;
+            color: white;
+        }
+        
+        .table-quant tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        
+        /* Quiz & Game styles */
+        .question-card {
+            background: #f7fafc;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option-btn {
+            padding: 14px 18px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #ebf4ff;
+        }
+        
+        .option-btn.correct {
+            background: #c6f6d5;
+            border-color: #48bb78;
+            color: #276749;
+        }
+        
+        .option-btn.wrong {
+            background: #fed7d7;
+            border-color: #f56565;
+            color: #c53030;
+        }
+        
+        .option-btn:disabled {
+            cursor: default;
+        }
+        
+        .feedback {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .feedback.wrong {
+            background: #fed7d7;
+            color: #c53030;
+        }
+        
+        /* Matching game */
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .match-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .match-column h4 {
+            text-align: center;
+            margin-bottom: 12px;
+            color: #4a5568;
+        }
+        
+        .match-item {
+            padding: 14px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .match-item:hover:not(.matched):not(.selected) {
+            border-color: #667eea;
+            background: #ebf4ff;
+        }
+        
+        .match-item.selected {
+            border-color: #667eea;
+            background: #c3dafe;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.3);
+        }
+        
+        .match-item.matched {
+            background: #c6f6d5;
+            border-color: #48bb78;
+            cursor: default;
+            opacity: 0.8;
+        }
+        
+        .match-item.wrong-flash {
+            background: #fed7d7;
+            border-color: #f56565;
+            animation: shake 0.4s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        
+        /* Progress */
+        .progress-bar {
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+        
+        /* Result screen */
+        .result-box {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .result-score {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 16px 0;
+        }
+        
+        .result-message {
+            font-size: 1.3rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer nav */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        /* Character */
+        .mascot {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .tip {
+            background: #fefcbf;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            color: #744210;
+            margin-top: 16px;
+            border-left: 4px solid #ecc94b;
+        }
+        
+        /* Fill blank */
+        .blank-input {
+            padding: 8px 14px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 140px;
+            text-align: center;
+            font-family: inherit;
+        }
+        
+        .blank-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .sentence {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 500px) {
+            .header h1 { font-size: 1.6rem; }
+            .card { padding: 20px; }
+            .menu-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== LOGIN SCREEN ========== -->
+        <div id="login-screen" class="screen active">
+            <div class="header">
+                <div class="mascot">🍦📚</div>
+                <h1>Quantifiers of Food & Drink</h1>
+                <p>Media Pembelajaran Interaktif Bahasa Inggris<br>Kelas 5 • Kurikulum Merdeka • Semester 1</p>
+            </div>
+            <div class="card">
+                <h2 style="text-align:center; color:#2d3748; margin-bottom:20px;">Halo, Selamat Datang! 👋</h2>
+                <p style="text-align:center; color:#718096; margin-bottom:24px;">Sebelum mulai belajar, isi data dirimu dulu ya!</p>
+                <div class="login-form">
+                    <div class="form-group">
+                        <label for="student-name">Nama Lengkap</label>
+                        <input type="text" id="student-name" placeholder="Contoh: Budi Santoso" maxlength="40">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-class">Kelas</label>
+                        <select id="student-class">
+                            <option value="">-- Pilih Kelas --</option>
+                            <option value="5 A">5 A</option>
+                            <option value="5 B">5 B</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="startLearning()" style="margin-top:10px;">
+                        🚀 Mulai Belajar
+                    </button>
+                </div>
+                <div class="tip">
+                    💡 <strong>Unit 2:</strong> I Want an Ice Cream Cone – Quantifying Foods and Drinks
+                </div>
+            </div>
+        </div>
 
+        <!-- ========== MAIN MENU ========== -->
+        <div id="menu-screen" class="screen">
+            <div class="student-bar">
+                <div>👤 <span class="name" id="display-name">Siswa</span> • <span id="display-class">5</span></div>
+                <div class="score-display">⭐ Skor: <span id="total-score">0</span></div>
+            </div>
+            <div class="header">
+                <h1>Menu Utama</h1>
+                <p>Pilih kegiatan yang ingin kamu lakukan</p>
+            </div>
+            <div class="card">
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="showScreen('learn-screen')">
+                        <div class="icon">📖</div>
+                        <h3>Materi</h3>
+                        <p>Pelajari quantifiers</p>
+                    </div>
+                    <div class="menu-item" onclick="startGame1()">
+                        <div class="icon">🎮</div>
+                        <h3>Game Matching</h3>
+                        <p>Cocokkan quantifier</p>
+                    </div>
+                    <div class="menu-item" onclick="startGame2()">
+                        <div class="icon">✏️</div>
+                        <h3>Game Fill Blank</h3>
+                        <p>Lengkapi kalimat</p>
+                    </div>
+                    <div class="menu-item" onclick="startQuiz()">
+                        <div class="icon">📝</div>
+                        <h3>Kuis</h3>
+                        <p>Uji pemahamanmu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== LEARN SCREEN ========== -->
+        <div id="learn-screen" class="screen">
+            <div class="student-bar">
+                <div>👤 <span class="name" id="display-name2">Siswa</span></div>
+                <button class="btn btn-secondary" onclick="showScreen('menu-screen')" style="padding:8px 16px; font-size:0.85rem;">← Menu</button>
+            </div>
+            <div class="header">
+                <h1>📖 Materi Quantifiers</h1>
+                <p>Kata yang menunjukkan jumlah makanan & minuman</p>
+            </div>
+            <div class="card">
+                <div class="content-box">
+                    <h4>Apa itu Quantifier?</h4>
+                    <p>Quantifier adalah kata yang digunakan untuk menunjukkan <strong>jumlah</strong> atau <strong>ukuran</strong> sesuatu. Dalam bahasa Inggris, kita sering menggunakannya untuk makanan dan minuman.</p>
+                </div>
+
+                <div class="content-box">
+                    <h4>1. Quantifying Nouns (Satuan Ukuran)</h4>
+                    <p>Kita menggunakan pola: <strong>a / an + satuan + of + makanan/minuman</strong></p>
+                    <div class="example-grid">
+                        <div class="example-card">
+                            <div class="emoji">🍦</div>
+                            <div class="en">a cone of ice cream</div>
+                            <div class="id">sebuah kerucut es krim</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🥛</div>
+                            <div class="en">a glass of milk</div>
+                            <div class="id">segelas susu</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🍞</div>
+                            <div class="en">a slice of bread</div>
+                            <div class="id">sepotong roti</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🍫</div>
+                            <div class="en">a bar of chocolate</div>
+                            <div class="id">sebatang cokelat</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🍌</div>
+                            <div class="en">a hand of bananas</div>
+                            <div class="id">sisir pisang</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🥣</div>
+                            <div class="en">a bowl of soup</div>
+                            <div class="id">mangkuk sup</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🥤</div>
+                            <div class="en">a bottle of water</div>
+                            <div class="id">sebotol air</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🥖</div>
+                            <div class="en">a loaf of bread</div>
+                            <div class="id">sepotong roti (utuh)</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🍚</div>
+                            <div class="en">a plate of rice</div>
+                            <div class="id">sepiring nasi</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">🧃</div>
+                            <div class="en">a can of soda</div>
+                            <div class="id">sekaleng soda</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">☕</div>
+                            <div class="en">a cup of tea</div>
+                            <div class="id">secangkir teh</div>
+                        </div>
+                        <div class="example-card">
+                            <div class="emoji">⚖️</div>
+                            <div class="en">a kilo of sugar</div>
+                            <div class="id">satu kilogram gula</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-box">
+                    <h4>2. Countable vs Uncountable</h4>
+                    <p><strong>Countable</strong> (bisa dihitung): apple, banana, cookie, egg → pakai <em>many, a few, some, any, a lot of</em></p>
+                    <p><strong>Uncountable</strong> (tidak bisa dihitung): rice, water, milk, bread, sugar → pakai <em>much, a little, some, any, a lot of</em></p>
+                    <table class="table-quant">
+                        <thead>
+                            <tr>
+                                <th>Quantifier</th>
+                                <th>Countable</th>
+                                <th>Uncountable</th>
+                                <th>Contoh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>many</strong></td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>many apples</td>
+                            </tr>
+                            <tr>
+                                <td><strong>much</strong></td>
+                                <td>❌</td>
+                                <td>✅</td>
+                                <td>much water</td>
+                            </tr>
+                            <tr>
+                                <td><strong>a few</strong></td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>a few cookies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>a little</strong></td>
+                                <td>❌</td>
+                                <td>✅</td>
+                                <td>a little milk</td>
+                            </tr>
+                            <tr>
+                                <td><strong>some</strong></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>some rice / some bananas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>any</strong></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>any juice? / any apples?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>a lot of</strong></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>a lot of food</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-box">
+                    <h4>3. Contoh Kalimat</h4>
+                    <ul>
+                        <li>I want <strong>a cone of</strong> ice cream. (Saya ingin sebuah kerucut es krim.)</li>
+                        <li>She needs <strong>a glass of</strong> water. (Dia butuh segelas air.)</li>
+                        <li>There are <strong>many</strong> bananas on the table.</li>
+                        <li>There isn't <strong>much</strong> milk left.</li>
+                        <li>Can I have <strong>some</strong> rice, please?</li>
+                        <li>Do you have <strong>any</strong> juice?</li>
+                        <li>We bought <strong>a lot of</strong> fruit.</li>
+                        <li>There are only <strong>a few</strong> cookies left.</li>
+                        <li>Add <strong>a little</strong> sugar to the tea.</li>
+                    </ul>
+                </div>
+
+                <div class="tip">
+                    💡 <strong>Tips:</strong> Gunakan <em>some</em> di kalimat positif, <em>any</em> di kalimat negatif & pertanyaan. <em>Much/many</em> lebih sering di pertanyaan & negatif, sedangkan <em>a lot of</em> cocok untuk kalimat positif.
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="showScreen('menu-screen')">← Kembali ke Menu</button>
+                    <button class="btn btn-success" onclick="startGame1()">Lanjut ke Game →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== GAME 1: MATCHING ========== -->
+        <div id="game1-screen" class="screen">
+            <div class="student-bar">
+                <div>👤 <span class="name" id="display-name3">Siswa</span></div>
+                <div class="score-display">⭐ <span id="game1-score">0</span></div>
+            </div>
+            <div class="header">
+                <h1>🎮 Game Matching</h1>
+                <p>Cocokkan quantifier dengan artinya atau contohnya!</p>
+            </div>
+            <div class="card">
+                <div class="progress-bar"><div class="progress-fill" id="game1-progress" style="width:0%"></div></div>
+                <p style="text-align:center; margin-bottom:16px; color:#718096;" id="game1-instruction">Klik satu item di kiri, lalu klik pasangan yang cocok di kanan.</p>
+                
+                <div class="match-container">
+                    <div class="match-column">
+                        <h4>Quantifier / English</h4>
+                        <div id="match-left"></div>
+                    </div>
+                    <div class="match-column">
+                        <h4>Arti / Contoh</h4>
+                        <div id="match-right"></div>
+                    </div>
+                </div>
+
+                <div id="game1-feedback" class="feedback"></div>
+                
+                <div class="nav-buttons" id="game1-nav" style="display:none;">
+                    <button class="btn btn-success" onclick="finishGame1()">Selesai & Lihat Skor</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('menu-screen')">← Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== GAME 2: FILL IN THE BLANK ========== -->
+        <div id="game2-screen" class="screen">
+            <div class="student-bar">
+                <div>👤 <span class="name" id="display-name4">Siswa</span></div>
+                <div class="score-display">⭐ <span id="game2-score">0</span></div>
+            </div>
+            <div class="header">
+                <h1>✏️ Game Fill in the Blank</h1>
+                <p>Lengkapi kalimat dengan quantifier yang tepat!</p>
+            </div>
+            <div class="card">
+                <div class="progress-bar"><div class="progress-fill" id="game2-progress" style="width:0%"></div></div>
+                <div id="game2-content"></div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('menu-screen')">← Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== QUIZ SCREEN ========== -->
+        <div id="quiz-screen" class="screen">
+            <div class="student-bar">
+                <div>👤 <span class="name" id="display-name5">Siswa</span></div>
+                <div class="score-display">⭐ <span id="quiz-score">0</span> / <span id="quiz-total">10</span></div>
+            </div>
+            <div class="header">
+                <h1>📝 Kuis Quantifiers</h1>
+                <p>Pilih jawaban yang paling tepat</p>
+            </div>
+            <div class="card">
+                <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+                <div id="quiz-content"></div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="showScreen('menu-screen')">← Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== RESULT SCREEN ========== -->
+        <div id="result-screen" class="screen">
+            <div class="header">
+                <h1>🎉 Hasil Akhir</h1>
+            </div>
+            <div class="card">
+                <div class="result-box">
+                    <div class="mascot" id="result-emoji">🌟</div>
+                    <div class="result-score" id="result-score">0</div>
+                    <div class="result-message" id="result-message">Hebat!</div>
+                    <div class="stars" id="result-stars">⭐⭐⭐</div>
+                    <p id="result-detail" style="color:#718096; margin-bottom:24px;"></p>
+                    <div class="nav-buttons">
+                        <button class="btn btn-primary" onclick="showScreen('menu-screen')">🏠 Kembali ke Menu</button>
+                        <button class="btn btn-success" onclick="restartAll()">🔄 Mulai Ulang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== AUDIO (Web Audio API for sound effects) ==========
+        let audioCtx;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        
+        function playCorrect() {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+        
+        function playWrong() {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+        
+        function playClick() {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        // ========== STATE ==========
+        let studentName = '';
+        let studentClass = '';
+        let totalScore = 0;
+        
+        // ========== NAVIGATION ==========
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        
+        function startLearning() {
+            const name = document.getElementById('student-name').value.trim();
+            const kelas = document.getElementById('student-class').value;
+            
+            if (!name) {
+                alert('Silakan isi nama lengkapmu terlebih dahulu!');
+                return;
+            }
+            if (!kelas) {
+                alert('Silakan pilih kelasmu!');
+                return;
+            }
+            
+            studentName = name;
+            studentClass = kelas;
+            totalScore = 0;
+            
+            document.querySelectorAll('.name').forEach(el => el.textContent = studentName);
+            document.getElementById('display-class').textContent = studentClass;
+            document.getElementById('total-score').textContent = totalScore;
+            
+            playClick();
+            showScreen('menu-screen');
+        }
+        
+        function updateTotalScore(points) {
+            totalScore += points;
+            document.getElementById('total-score').textContent = totalScore;
+        }
+
+        // ========== GAME 1: MATCHING ==========
+        const matchPairs = [
+            { left: 'a glass of', right: 'segelas (air/susu)' },
+            { left: 'a bowl of', right: 'semangkuk (sup/nasi)' },
+            { left: 'a bar of', right: 'sebatang (cokelat)' },
+            { left: 'a slice of', right: 'sepotong (roti/kue)' },
+            { left: 'a bottle of', right: 'sebotol (air/jus)' },
+            { left: 'a loaf of', right: 'sepotong utuh (roti)' },
+            { left: 'many', right: 'banyak (benda bisa dihitung)' },
+            { left: 'much', right: 'banyak (benda tak terhitung)' },
+            { left: 'a few', right: 'sedikit (bisa dihitung)' },
+            { left: 'a little', right: 'sedikit (tak terhitung)' }
+        ];
+        
+        let matchSelected = null;
+        let matchMatched = 0;
+        let game1Score = 0;
+        let shuffledLeft = [];
+        let shuffledRight = [];
+        
+        function startGame1() {
+            matchSelected = null;
+            matchMatched = 0;
+            game1Score = 0;
+            document.getElementById('game1-score').textContent = '0';
+            document.getElementById('game1-progress').style.width = '0%';
+            document.getElementById('game1-feedback').className = 'feedback';
+            document.getElementById('game1-nav').style.display = 'none';
+            
+            // Shuffle
+            shuffledLeft = [...matchPairs].sort(() => Math.random() - 0.5);
+            shuffledRight = [...matchPairs].sort(() => Math.random() - 0.5);
+            
+            const leftEl = document.getElementById('match-left');
+            const rightEl = document.getElementById('match-right');
+            leftEl.innerHTML = '';
+            rightEl.innerHTML = '';
+            
+            shuffledLeft.forEach((p, i) => {
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.textContent = p.left;
+                div.dataset.index = i;
+                div.dataset.value = p.left;
+                div.onclick = () => selectMatch('left', div, p.left);
+                leftEl.appendChild(div);
+            });
+            
+            shuffledRight.forEach((p, i) => {
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.textContent = p.right;
+                div.dataset.index = i;
+                div.dataset.value = p.right;
+                div.onclick = () => selectMatch('right', div, p.right);
+                rightEl.appendChild(div);
+            });
+            
+            showScreen('game1-screen');
+        }
+        
+        function selectMatch(side, el, value) {
+            if (el.classList.contains('matched')) return;
+            
+            playClick();
+            
+            // Clear previous selection on same side
+            document.querySelectorAll(`#match-${side} .match-item.selected`).forEach(e => e.classList.remove('selected'));
+            
+            el.classList.add('selected');
+            
+            if (!matchSelected) {
+                matchSelected = { side, el, value };
+            } else {
+                if (matchSelected.side === side) {
+                    matchSelected = { side, el, value };
+                    return;
+                }
+                
+                // Check match
+                const leftVal = matchSelected.side === 'left' ? matchSelected.value : value;
+                const rightVal = matchSelected.side === 'right' ? matchSelected.value : value;
+                
+                const isCorrect = matchPairs.some(p => p.left === leftVal && p.right === rightVal);
+                
+                if (isCorrect) {
+                    playCorrect();
+                    matchSelected.el.classList.add('matched');
+                    matchSelected.el.classList.remove('selected');
+                    el.classList.add('matched');
+                    el.classList.remove('selected');
+                    matchMatched++;
+                    game1Score += 10;
+                    document.getElementById('game1-score').textContent = game1Score;
+                    document.getElementById('game1-progress').style.width = (matchMatched / matchPairs.length * 100) + '%';
+                    
+                    const fb = document.getElementById('game1-feedback');
+                    fb.textContent = '✅ Benar! Hebat!';
+                    fb.className = 'feedback show correct';
+                    
+                    if (matchMatched === matchPairs.length) {
+                        setTimeout(() => {
+                            document.getElementById('game1-nav').style.display = 'flex';
+                            fb.textContent = '🎉 Semua cocok! Kamu hebat sekali!';
+                        }, 500);
+                    }
+                } else {
+                    playWrong();
+                    matchSelected.el.classList.add('wrong-flash');
+                    el.classList.add('wrong-flash');
+                    const fb = document.getElementById('game1-feedback');
+                    fb.textContent = '❌ Belum tepat, coba lagi!';
+                    fb.className = 'feedback show wrong';
+                    
+                    setTimeout(() => {
+                        matchSelected.el.classList.remove('selected', 'wrong-flash');
+                        el.classList.remove('selected', 'wrong-flash');
+                        matchSelected = null;
+                    }, 600);
+                    return;
+                }
+                matchSelected = null;
+            }
+        }
+        
+        function finishGame1() {
+            updateTotalScore(game1Score);
+            showResult(game1Score, 100, 'Game Matching');
+        }
+
+        // ========== GAME 2: FILL BLANK ==========
+        const fillQuestions = [
+            { sentence: 'I want _____ cone of ice cream.', answer: 'a', options: ['a', 'an', 'some', 'any'] },
+            { sentence: 'She drank _____ glass of water.', answer: 'a', options: ['a', 'an', 'much', 'many'] },
+            { sentence: 'There are _____ bananas on the table.', answer: 'many', options: ['much', 'many', 'a little', 'any'] },
+            { sentence: 'There isn\'t _____ milk in the fridge.', answer: 'much', options: ['many', 'much', 'a few', 'some'] },
+            { sentence: 'Can I have _____ rice, please?', answer: 'some', options: ['any', 'some', 'many', 'a few'] },
+            { sentence: 'Do you have _____ juice?', answer: 'any', options: ['some', 'any', 'much', 'a little'] },
+            { sentence: 'We need _____ sugar for the cake.', answer: 'a little', options: ['a few', 'a little', 'many', 'any'] },
+            { sentence: 'There are only _____ cookies left.', answer: 'a few', options: ['a little', 'a few', 'much', 'any'] },
+            { sentence: 'He bought _____ bottle of soda.', answer: 'a', options: ['a', 'an', 'some', 'much'] },
+            { sentence: 'I like eating _____ bar of chocolate.', answer: 'a', options: ['a', 'an', 'many', 'much'] }
+        ];
+        
+        let game2Index = 0;
+        let game2Score = 0;
+        
+        function startGame2() {
+            game2Index = 0;
+            game2Score = 0;
+            document.getElementById('game2-score').textContent = '0';
+            showGame2Question();
+            showScreen('game2-screen');
+        }
+        
+        function showGame2Question() {
+            if (game2Index >= fillQuestions.length) {
+                updateTotalScore(game2Score);
+                showResult(game2Score, fillQuestions.length * 10, 'Game Fill in the Blank');
+                return;
+            }
+            
+            const q = fillQuestions[game2Index];
+            document.getElementById('game2-progress').style.width = (game2Index / fillQuestions.length * 100) + '%';
+            
+            let optionsHtml = q.options.map(opt => 
+                `<button class="option-btn" onclick="checkFill('${opt}')">${opt}</button>`
+            ).join('');
+            
+            document.getElementById('game2-content').innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Soal ${game2Index + 1} dari ${fillQuestions.length}</div>
+                    <div class="sentence">${q.sentence.replace('_____', '<span style="color:#667eea; font-weight:700;">______</span>')}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div id="game2-feedback" class="feedback"></div>
+                </div>
+            `;
+        }
+        
+        function checkFill(selected) {
+            const q = fillQuestions[game2Index];
+            const buttons = document.querySelectorAll('#game2-content .option-btn');
+            buttons.forEach(b => b.disabled = true);
+            
+            const fb = document.getElementById('game2-feedback');
+            
+            if (selected === q.answer) {
+                playCorrect();
+                game2Score += 10;
+                document.getElementById('game2-score').textContent = game2Score;
+                fb.textContent = '✅ Benar! Jawaban: ' + q.answer;
+                fb.className = 'feedback show correct';
+                buttons.forEach(b => {
+                    if (b.textContent === selected) b.classList.add('correct');
+                });
+            } else {
+                playWrong();
+                fb.textContent = '❌ Salah. Jawaban yang benar: ' + q.answer;
+                fb.className = 'feedback show wrong';
+                buttons.forEach(b => {
+                    if (b.textContent === selected) b.classList.add('wrong');
+                    if (b.textContent === q.answer) b.classList.add('correct');
+                });
+            }
+            
+            setTimeout(() => {
+                game2Index++;
+                showGame2Question();
+            }, 1500);
+        }
+
+        // ========== QUIZ ==========
+        const quizQuestions = [
+            {
+                q: 'What is the correct quantifier? "I want _____ ice cream cone."',
+                options: ['a', 'an', 'some', 'much'],
+                answer: 0,
+                explain: 'Kita menggunakan "a" sebelum kata yang berawalan konsonan (cone).'
+            },
+            {
+                q: 'Choose the correct one: "She needs _____ glass of water."',
+                options: ['an', 'a', 'many', 'a few'],
+                answer: 1,
+                explain: '"a glass of" adalah quantifier yang tepat untuk air.'
+            },
+            {
+                q: 'Which quantifier is used for countable nouns?',
+                options: ['much', 'a little', 'many', 'a little sugar'],
+                answer: 2,
+                explain: '"many" digunakan untuk benda yang bisa dihitung (countable).'
+            },
+            {
+                q: '"There isn\'t _____ milk left." – Pilih yang tepat.',
+                options: ['many', 'a few', 'much', 'some'],
+                answer: 2,
+                explain: 'Milk adalah uncountable, jadi gunakan "much" di kalimat negatif.'
+            },
+            {
+                q: 'What does "a bar of chocolate" mean?',
+                options: ['sepotong roti', 'sebatang cokelat', 'segelas susu', 'semangkuk nasi'],
+                answer: 1,
+                explain: '"a bar of chocolate" = sebatang cokelat.'
+            },
+            {
+                q: 'Complete: "Can I have _____ bananas?"',
+                options: ['much', 'a little', 'some', 'an'],
+                answer: 2,
+                explain: '"some" bisa digunakan untuk countable nouns di permintaan/pertanyaan positif.'
+            },
+            {
+                q: 'Which one is uncountable?',
+                options: ['apple', 'banana', 'rice', 'cookie'],
+                answer: 2,
+                explain: 'Rice (nasi) adalah uncountable noun.'
+            },
+            {
+                q: '"a loaf of bread" artinya...',
+                options: ['sepotong roti tipis', 'sepotong roti utuh', 'sepiring nasi', 'sebotol air'],
+                answer: 1,
+                explain: '"a loaf of bread" = sepotong roti utuh (satu roti panjang/bulat).'
+            },
+            {
+                q: 'Choose correctly: "There are only _____ eggs in the fridge."',
+                options: ['a little', 'much', 'a few', 'any'],
+                answer: 2,
+                explain: 'Eggs bisa dihitung → "a few" (sedikit).'
+            },
+            {
+                q: 'What is the best quantifier? "We bought _____ fruit for the party."',
+                options: ['much', 'many', 'a lot of', 'a little'],
+                answer: 2,
+                explain: '"a lot of" bisa digunakan untuk countable dan uncountable di kalimat positif.'
+            }
+        ];
+        
+        let quizIndex = 0;
+        let quizScore = 0;
+        
+        function startQuiz() {
+            quizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score').textContent = '0';
+            document.getElementById('quiz-total').textContent = quizQuestions.length;
+            showQuizQuestion();
+            showScreen('quiz-screen');
+        }
+        
+        function showQuizQuestion() {
+            if (quizIndex >= quizQuestions.length) {
+                updateTotalScore(quizScore * 10);
+                showResult(quizScore * 10, quizQuestions.length * 10, 'Kuis');
+                return;
+            }
+            
+            const q = quizQuestions[quizIndex];
+            document.getElementById('quiz-progress').style.width = (quizIndex / quizQuestions.length * 100) + '%';
+            
+            let optionsHtml = q.options.map((opt, i) => 
+                `<button class="option-btn" onclick="checkQuiz(${i})">${String.fromCharCode(65 + i)}. ${opt}</button>`
+            ).join('');
+            
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Soal ${quizIndex + 1} dari ${quizQuestions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div id="quiz-feedback" class="feedback"></div>
+                </div>
+            `;
+        }
+        
+        function checkQuiz(selected) {
+            const q = quizQuestions[quizIndex];
+            const buttons = document.querySelectorAll('#quiz-content .option-btn');
+            buttons.forEach(b => b.disabled = true);
+            
+            const fb = document.getElementById('quiz-feedback');
+            
+            if (selected === q.answer) {
+                playCorrect();
+                quizScore++;
+                document.getElementById('quiz-score').textContent = quizScore;
+                fb.textContent = '✅ Benar! ' + q.explain;
+                fb.className = 'feedback show correct';
+                buttons[selected].classList.add('correct');
+            } else {
+                playWrong();
+                fb.textContent = '❌ Salah. ' + q.explain;
+                fb.className = 'feedback show wrong';
+                buttons[selected].classList.add('wrong');
+                buttons[q.answer].classList.add('correct');
+            }
+            
+            setTimeout(() => {
+                quizIndex++;
+                showQuizQuestion();
+            }, 2000);
+        }
+
+        // ========== RESULT ==========
+        function showResult(score, maxScore, activity) {
+            const percent = Math.round((score / maxScore) * 100);
+            document.getElementById('result-score').textContent = score + ' / ' + maxScore;
+            
+            let emoji, message, stars;
+            if (percent >= 90) {
+                emoji = '🏆';
+                message = 'Luar biasa, ' + studentName + '!';
+                stars = '⭐⭐⭐⭐⭐';
+            } else if (percent >= 70) {
+                emoji = '🌟';
+                message = 'Hebat sekali, ' + studentName + '!';
+                stars = '⭐⭐⭐⭐';
+            } else if (percent >= 50) {
+                emoji = '👍';
+                message = 'Bagus, ' + studentName + '! Terus berlatih ya!';
+                stars = '⭐⭐⭐';
+            } else {
+                emoji = '💪';
+                message = 'Jangan menyerah, ' + studentName + '! Coba lagi ya!';
+                stars = '⭐⭐';
+            }
+            
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('result-stars').textContent = stars;
+            document.getElementById('result-detail').textContent = `Aktivitas: ${activity} • Skor total kamu sekarang: ${totalScore}`;
+            
+            showScreen('result-screen');
+        }
+        
+        function restartAll() {
+            totalScore = 0;
+            document.getElementById('total-score').textContent = '0';
+            document.getElementById('student-name').value = '';
+            document.getElementById('student-class').value = '';
+            showScreen('login-screen');
+        }
+        
+        // Prevent accidental form submit
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ready
+        });
+    </script>
+</body>
+</html>
